@@ -19,14 +19,14 @@ package com.soebes.itf.maven.plugin.failure;
  * under the License.
  */
 
+import com.soebes.itf.jupiter.extension.MavenCLIOptions;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
+import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
-import static org.assertj.core.api.Assertions.atIndex;
 
 @MavenJupiterExtension
 class FailureIT {
@@ -38,27 +38,80 @@ class FailureIT {
   }
 
   @MavenTest
-  void basic_configuration_checking_logout(MavenExecutionResult result) {
+  @MavenOption(MavenCLIOptions.DEBUG)
+  void basic_configuration_with_debug(MavenExecutionResult result) {
     assertThat(result)
         .isSuccessful()
         .out()
         .info()
         .containsSubsequence(
-            "--- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ basic_configuration_checking_logout ---",
-            "--- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ basic_configuration_checking_logout ---",
-            "--- maven-resources-plugin:3.1.0:resources (default-resources) @ basic_configuration_checking_logout ---",
-            "--- maven-compiler-plugin:3.8.1:compile (default-compile) @ basic_configuration_checking_logout ---",
-            "--- maven-resources-plugin:3.1.0:testResources (default-testResources) @ basic_configuration_checking_logout ---",
-            "--- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ basic_configuration_checking_logout ---",
-            "--- maven-surefire-plugin:3.0.0-M4:test (default-test) @ basic_configuration_checking_logout ---",
-            "--- maven-jar-plugin:3.2.0:jar (default-jar) @ basic_configuration_checking_logout ---",
-            "--- maven-site-plugin:3.9.1:attach-descriptor (attach-descriptor) @ basic_configuration_checking_logout ---"
+            "--- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ basic_configuration_with_debug ---",
+            "--- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ basic_configuration_with_debug ---",
+            "--- maven-resources-plugin:3.1.0:resources (default-resources) @ basic_configuration_with_debug ---",
+            "--- maven-compiler-plugin:3.8.1:compile (default-compile) @ basic_configuration_with_debug ---",
+            "--- maven-resources-plugin:3.1.0:testResources (default-testResources) @ basic_configuration_with_debug ---",
+            "--- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ basic_configuration_with_debug ---",
+            "--- maven-surefire-plugin:3.0.0-M4:test (default-test) @ basic_configuration_with_debug ---",
+            "--- maven-jar-plugin:3.2.0:jar (default-jar) @ basic_configuration_with_debug ---",
+            "--- maven-site-plugin:3.9.1:attach-descriptor (attach-descriptor) @ basic_configuration_with_debug ---"
         );
     assertThat(result)
         .isSuccessful()
         .out()
         .warn()
-        .contains("JAR will be empty - no content was marked for inclusion!");
+        .containsSubsequence(
+            "Neither executionException nor failureException has been set.",
+            "JAR will be empty - no content was marked for inclusion!");
+
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .debug()
+        .containsSubsequence(
+            "Created new class realm maven.api",
+            "Project: com.soebes.itf.maven.plugin.its:basic_configuration_with_debug:jar:1.0",
+            "Goal:          org.apache.maven.plugins:maven-resources-plugin:3.1.0:resources (default-resources)"
+        );
+
+  }
+
+  @MavenTest
+  @MavenOption(MavenCLIOptions.BATCH_MODE)
+  @MavenOption(MavenCLIOptions.ERRORS)
+  @MavenOption(MavenCLIOptions.DEBUG)
+  void basic_configuration_with_debug_and_others(MavenExecutionResult result) {
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .info()
+        .containsSubsequence(
+            "--- maven-enforcer-plugin:3.0.0-M1:enforce (enforce-maven) @ basic_configuration_with_debug ---",
+            "--- jacoco-maven-plugin:0.8.5:prepare-agent (default) @ basic_configuration_with_debug ---",
+            "--- maven-resources-plugin:3.1.0:resources (default-resources) @ basic_configuration_with_debug ---",
+            "--- maven-compiler-plugin:3.8.1:compile (default-compile) @ basic_configuration_with_debug ---",
+            "--- maven-resources-plugin:3.1.0:testResources (default-testResources) @ basic_configuration_with_debug ---",
+            "--- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ basic_configuration_with_debug ---",
+            "--- maven-surefire-plugin:3.0.0-M4:test (default-test) @ basic_configuration_with_debug ---",
+            "--- maven-jar-plugin:3.2.0:jar (default-jar) @ basic_configuration_with_debug ---",
+            "--- maven-site-plugin:3.9.1:attach-descriptor (attach-descriptor) @ basic_configuration_with_debug ---"
+        );
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .warn()
+        .containsSubsequence(
+            "Neither executionException nor failureException has been set.",
+            "JAR will be empty - no content was marked for inclusion!");
+
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .debug()
+        .containsSubsequence(
+            "Created new class realm maven.api",
+            "Project: com.soebes.itf.maven.plugin.its:basic_configuration_with_debug:jar:1.0",
+            "Goal:          org.apache.maven.plugins:maven-resources-plugin:3.1.0:resources (default-resources)"
+        );
 
   }
 }

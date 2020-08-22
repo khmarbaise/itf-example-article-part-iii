@@ -29,11 +29,11 @@ under the License.
   </parent>
 
   <groupId>com.soebes.itf.maven.plugin.its</groupId>
-  <artifactId>basic_configuration_checking_logout</artifactId>
+  <artifactId>basic_configuration_with_debug</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
-  <name>ITF Part II#basic_configuration_checking logoutput</name>
+  <name>ITF Part III#basic_configuration_with_debug</name>
   <description>The build should be successful.</description>
 
   <build>
@@ -50,7 +50,7 @@ under the License.
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>com.soebes.itf.examples.part.ii</groupId>
+        <groupId>com.soebes.itf.examples.part.iii</groupId>
         <artifactId>itf-failure-plugin</artifactId>
         <version>@project.version@</version>
         <executions>
