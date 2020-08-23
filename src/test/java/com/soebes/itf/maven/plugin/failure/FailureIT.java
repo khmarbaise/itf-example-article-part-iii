@@ -24,9 +24,19 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.QUIET;
+import static com.soebes.itf.jupiter.extension.MavenCLIOptions.SHOW_VERSION;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @MavenJupiterExtension
 class FailureIT {
@@ -114,4 +124,38 @@ class FailureIT {
         );
 
   }
+
+  @MavenTest
+  @MavenOption(QUIET)
+  @MavenOption(SHOW_VERSION)
+  @MavenOption(value = LOG_FILE, parameter = "test.log")
+  void option_quiet_logfile(MavenExecutionResult result) throws IOException {
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .info()
+        .isEmpty();
+
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .warn().isEmpty();
+
+    assertThat(result)
+        .isSuccessful()
+        .out()
+        .debug().isEmpty();
+
+    File baseDir = result.getMavenProjectResult().getBaseDir();
+    /*
+       Ony the following lines will be written to the resulting test.log:
+        Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+        Maven home: /...
+        Java version: 11.0.8, vendor: AdoptOpenJDK, runtime: ...
+        Default locale: en_GB, platform encoding: UTF-8
+        OS name: "mac os x", version: "10.14.6", arch: "x86_64", family: "mac"
+     */
+    assertThat(Files.lines(Paths.get(baseDir.getPath(), "test.log"))).hasSize(5);
+  }
+
 }
