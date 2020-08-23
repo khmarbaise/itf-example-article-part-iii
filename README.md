@@ -14,11 +14,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-# Example Project Part II
+# Example Project Part III
 
 Example project for demonstration purposes of the [Integration Testing Framework][itf].
 
-https://blog.soebes.de/blog/2020/08/18/itf-part-ii/
+https://blog.soebes.de/blog/2020/....-part-iii
 
 # State
 This project is an example project for an article.
