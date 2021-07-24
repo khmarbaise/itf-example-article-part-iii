@@ -146,7 +146,7 @@ class FailureIT {
         .out()
         .debug().isEmpty();
 
-    File baseDir = result.getMavenProjectResult().getBaseDir();
+    File baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
     /*
        Ony the following lines will be written to the resulting test.log:
         Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
