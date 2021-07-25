@@ -24,7 +24,6 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
 import java.io.File;
@@ -36,7 +35,6 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.QUIET;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.SHOW_VERSION;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @MavenJupiterExtension
 class FailureIT {
