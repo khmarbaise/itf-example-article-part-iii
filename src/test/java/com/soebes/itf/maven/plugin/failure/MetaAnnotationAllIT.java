@@ -19,7 +19,6 @@ package com.soebes.itf.maven.plugin.failure;
  * under the License.
  */
 
-import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenOption;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
