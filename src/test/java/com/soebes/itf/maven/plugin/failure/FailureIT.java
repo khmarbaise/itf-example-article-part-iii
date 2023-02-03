@@ -29,7 +29,10 @@ import org.junit.jupiter.api.DisplayName;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static com.soebes.itf.jupiter.extension.MavenCLIOptions.LOG_FILE;
@@ -144,7 +147,7 @@ class FailureIT {
         .out()
         .debug().isEmpty();
 
-    File baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
+    Path baseDir = result.getMavenProjectResult().getTargetProjectDirectory();
     /*
        Ony the following lines will be written to the resulting test.log:
         Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
@@ -153,7 +156,8 @@ class FailureIT {
         Default locale: en_GB, platform encoding: UTF-8
         OS name: "mac os x", version: "10.14.6", arch: "x86_64", family: "mac"
      */
-    assertThat(Files.lines(Paths.get(baseDir.getPath(), "test.log"))).hasSize(5);
+    var lines = Files.lines(baseDir.resolve("test.log")).toList();
+    assertThat(lines).hasSize(5);
   }
 
 }
